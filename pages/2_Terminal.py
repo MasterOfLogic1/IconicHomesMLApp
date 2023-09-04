@@ -338,11 +338,7 @@ try:
              st.write(f"<span style='color:green'>Error:  ±{cd:.2f} %</span>", unsafe_allow_html=True)     
 
 
-    st.text("")
-    st.text("__________________________________________________________________________________________________________________________")
-    get_model_performance_metrics(st.session_state["model_name"])
-    st.text("__________________________________________________________________________________________________________________________")
-    st.text("")
+
 
     if "Predicted_Price" not in list(st.session_state.keys()):
         st.session_state["lsoa_name"] = ""
@@ -354,6 +350,11 @@ try:
 
     if st.session_state["Predicted_Price"] != 0 and st.session_state["lsoa_name"] != "":
         # for feature in selected_features:
+        st.text("")
+        st.text("__________________________________________________________________________________________________________________________")
+        get_model_performance_metrics(st.session_state["model_name"])
+        st.text("__________________________________________________________________________________________________________________________")
+        st.text("")
         lsoa_code =st.session_state["lsoa_code"]
         st.text("Option : " + st.session_state["model_name"])
         st.text("Your Area : " + st.session_state["lsoa_name"])
@@ -387,6 +388,11 @@ try:
 
 
     elif st.session_state["Predicted_Price"] != 0:
+        st.text("")
+        st.text("__________________________________________________________________________________________________________________________")
+        get_model_performance_metrics(st.session_state["model_name"])
+        st.text("__________________________________________________________________________________________________________________________")
+        st.text("")
         st.text("According to my model the predicted house price in your area is £ " + "{:,}".format(st.session_state["Predicted_Price"]))
         model_name = st.session_state["model_name"]
         rmse = get_rmse(model_name)
