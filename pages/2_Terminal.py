@@ -388,6 +388,10 @@ try:
 
     elif st.session_state["Predicted_Price"] != 0:
         st.text("According to my model the predicted house price in your area is £ " + "{:,}".format(st.session_state["Predicted_Price"]))
+        model_name = st.session_state["model_name"]
+        rmse = get_rmse(model_name)
+        pv = st.session_state["Predicted_Price"]
+        st.text("Investment Consideration Range : £ " + "{:,.2f}".format(pv - rmse) + " - £ " + "{:,.2f}".format(pv))
     else:
         st.write(f"<span style='font-size: 24px;'>Your predicted value would appear here.</span>", unsafe_allow_html=True)
     
