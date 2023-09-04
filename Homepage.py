@@ -8,7 +8,7 @@ import sklearn
 
 #Initialize all page settings and environment vairables
 st.set_page_config(
-    page_title="Real Estate Burger",
+    page_title="IconicHomes Estate Master",
     page_icon=":)"
 )
 
@@ -34,7 +34,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 
 # Create a Streamlit app
-st.title('Welcome to Real 🏡 Estate Master')
+st.title('Welcome to Iconic 🏡 Estate Master')
 st.write('Your ultimate Estate valuation app.')
 st.sidebar.success("Select a page above")
 st.write("")

@@ -5,6 +5,27 @@ import joblib
 import sklearn
 
 st.title("About our app & data")
+def get_model_performance_metrics(modelname):
+    from sklearn.metrics import mean_squared_error,mean_absolute_error, r2_score
+    from sklearn.metrics import mean_absolute_error
+    import pandas as pd
+    import os
+    import numpy as np
+    directory_path = 'Data\PreTrained'
+    dfPred = pd.read_csv(os.path.join(directory_path, modelname+"_Predicted.csv"), header=0, delimiter=',')
+    dfTest = pd.read_csv(os.path.join(directory_path, modelname+"_Test.csv"), header=0, delimiter=',')
+    y_pred = dfPred['Value'].values
+    y_test = dfTest['Value'].values
+    mse = mean_squared_error(y_test, y_pred)
+    mae = mean_absolute_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+    rmse = np.sqrt(mse)
+    st.write("Mean Squared Error:", round(mse, 2))
+    st.write("R-squared:", round(r2,2))
+    st.write("Mean Absolute Error:", round(mae,2))
+    st.write("Root Mean Squared Error:", round(rmse,2))
+
+
 # Print versions
 st.write("")
 st.write("----------------------------------")
@@ -65,8 +86,9 @@ model = joblib.load('Models/xRFTpipe.joblib')
 model_params = model.get_params()
 # Print the model parameters
 st.write(" | ".join([f"{param}: {value}" for param, value in model_params.items()]))
+get_model_performance_metrics('RFM')
 
-
+st.write("----------------------------------")
 
 # Load the Gradient boost model
 gbst_model = joblib.load('Models/xGBSTpipe.joblib')
@@ -75,8 +97,8 @@ gbst_params = gbst_model.get_params()
 # Display the gbst model parameters in one line
 st.write("Gradient Boost:")
 st.write(" | ".join([f"{param}: {value}" for param, value in gbst_params.items()]))
-
-
+get_model_performance_metrics('GBM')
+st.write("----------------------------------")
 # Load the KMeans model
 kmeans_model = joblib.load('Models/xKMNSpipe.joblib')
 # Get all the parameters of the KMeans model
@@ -84,7 +106,7 @@ kmeans_params = kmeans_model.get_params()
 # Display the KMeans model parameters in one line
 st.write("KMeans:")
 st.write(" | ".join([f"{param}: {value}" for param, value in kmeans_params.items()]))
-
+st.write("----------------------------------")
 st.write("")
 st.write("")
 st.markdown("""[App built by MolA](https://www.youtube.com/@masteroflogic)""")

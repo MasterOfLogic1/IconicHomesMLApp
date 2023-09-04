@@ -21,6 +21,45 @@ def initialize_blank_lsoa_data():
     df = pd.DataFrame(data, columns=columns)
     return df
 
+
+# gets rmse
+def get_rmse(modelname):
+    from sklearn.metrics import mean_squared_error
+    import pandas as pd
+    import os
+    import numpy as np
+    directory_path = 'Data\PreTrained'
+    dfPred = pd.read_csv(os.path.join(directory_path, modelname+"_Predicted.csv"), header=0, delimiter=',')
+    dfTest = pd.read_csv(os.path.join(directory_path, modelname+"_Test.csv"), header=0, delimiter=',')
+    y_pred = dfPred['Value'].values
+    y_test = dfTest['Value'].values
+    mse = mean_squared_error(y_test, y_pred)
+    rmse = np.sqrt(mse)
+    return rmse
+
+
+# Initialize Model Performace metrics
+def get_model_performance_metrics(modelname):
+    st.write("<span style='font-size: 24px; font-weight: bold;'>Model Overall Performance :</span>", unsafe_allow_html=True)
+    from sklearn.metrics import mean_squared_error,mean_absolute_error, r2_score
+    from sklearn.metrics import mean_absolute_error
+    import pandas as pd
+    import os
+    import numpy as np
+    directory_path = 'Data\PreTrained'
+    dfPred = pd.read_csv(os.path.join(directory_path, modelname+"_Predicted.csv"), header=0, delimiter=',')
+    dfTest = pd.read_csv(os.path.join(directory_path, modelname+"_Test.csv"), header=0, delimiter=',')
+    y_pred = dfPred['Value'].values
+    y_test = dfTest['Value'].values
+    mse = mean_squared_error(y_test, y_pred)
+    mae = mean_absolute_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+    rmse = np.sqrt(mse)
+    st.write("Mean Squared Error:", round(mse, 2))
+    st.write("R-squared:", round(r2,2))
+    st.write("Mean Absolute Error:", round(mae,2))
+    st.write("Root Mean Squared Error:", round(rmse,2))
+
 if backButton:
     from streamlit_extras.switch_page_button import switch_page
     st.session_state["lsoa_name"] = ""
@@ -108,7 +147,6 @@ try:
 
     
     def cluster_graph(df,df2,selected_cluster):
-        st.write("<span style='font-size: 24px; font-weight: bold;'>House Price Per Cluster :</span>", unsafe_allow_html=True)
         # First we need to get all clusters
         clusterIndex = np.sort(df["Cluster"].unique())
         clusterName = []
@@ -300,6 +338,12 @@ try:
              st.write(f"<span style='color:green'>Error:  ±{cd:.2f} %</span>", unsafe_allow_html=True)     
 
 
+    st.text("")
+    st.text("__________________________________________________________________________________________________________________________")
+    get_model_performance_metrics(st.session_state["model_name"])
+    st.text("__________________________________________________________________________________________________________________________")
+    st.text("")
+
     if "Predicted_Price" not in list(st.session_state.keys()):
         st.session_state["lsoa_name"] = ""
         st.session_state["Actual_Price"] = 0.0000
@@ -316,6 +360,10 @@ try:
         st.text("Reported house price : £ "+"{:,}".format(st.session_state["Reported_Price"]))
         st.text("Actual house price : £ " + "{:,}".format(st.session_state["Actual_Price"]))
         st.text("Predicted house price : £ " + "{:,}".format(st.session_state["Predicted_Price"]))
+        model_name = st.session_state["model_name"]
+        rmse = get_rmse(model_name)
+        pv = st.session_state["Predicted_Price"]
+        st.text("Investment Consideration Range : £ " + "{:,.2f}".format(pv - rmse) + " - £ " + "{:,.2f}".format(pv))
         st.markdown("<span style='color: orange;'>Warning! Reported house price might be suspectible to inflation or human sentimental over-hyped value.</span>", unsafe_allow_html=True)
         st.text("")
         st.text("__________________________________________________________________________________________________________________________")
@@ -342,6 +390,8 @@ try:
         st.text("According to my model the predicted house price in your area is £ " + "{:,}".format(st.session_state["Predicted_Price"]))
     else:
         st.write(f"<span style='font-size: 24px;'>Your predicted value would appear here.</span>", unsafe_allow_html=True)
+    
+
 
 
 
@@ -349,6 +399,7 @@ try:
     if st.session_state["Predicted_Price"] != 0 and "Predicted_Price" in list(st.session_state.keys()):
         st.text("")
         st.text("__________________________________________________________________________________________________________________________")
+        st.write("<span style='font-size: 24px; font-weight: bold;'>House Price Category or Cluster :</span>", unsafe_allow_html=True)
         st.text("")
         #call the k means function
         min_max_vals = get_min_max_val(selected_features)
