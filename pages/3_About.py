@@ -11,7 +11,7 @@ def get_model_performance_metrics(modelname):
     import pandas as pd
     import os
     import numpy as np
-    directory_path = 'Data\PreTrained'
+    directory_path = 'Data/PreTrained'
     dfPred = pd.read_csv(os.path.join(directory_path, modelname+"_Predicted.csv"), header=0, delimiter=',')
     dfTest = pd.read_csv(os.path.join(directory_path, modelname+"_Test.csv"), header=0, delimiter=',')
     y_pred = dfPred['Value'].values
