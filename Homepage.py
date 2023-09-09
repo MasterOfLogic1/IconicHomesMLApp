@@ -90,7 +90,7 @@ try:
     # Define a list of options for the radio button
     options = ["RFM", "GBM"] #RF is random forest model and GBM is gradient boost model
     # Create a radio button using st.radio
-    selected_option = st.radio("Select an option:", options)
+    selected_option = st.radio("Select an option:", options,help='Random Forest Model (RFM) Or Gradient Boost Model (GBM)')
     submit = st.button("Explore")
     
 

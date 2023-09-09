@@ -46,6 +46,9 @@ def get_model_performance_metrics(modelname):
     import pandas as pd
     import os
     import numpy as np
+    model_name_dict = {'RFM':'Random Forest Model','GBM':'Gradient Boost Model'}
+    model_desc = {'RFM':'an ensemble learning method that combines multiple decision trees to make more accurate predictions.','GBM':'works by building an ensemble of decision trees, where each tree corrects the errors made by the previous ones.'}
+    st.text("Model: " + model_name_dict[st.session_state["model_name"]],help=model_desc[st.session_state["model_name"]])
     directory_path = 'Data/PreTrained'
     dfPred = pd.read_csv(os.path.join(directory_path, modelname+"_Predicted.csv"), header=0, delimiter=',')
     dfTest = pd.read_csv(os.path.join(directory_path, modelname+"_Test.csv"), header=0, delimiter=',')
@@ -364,7 +367,7 @@ try:
         model_name = st.session_state["model_name"]
         rmse = get_rmse(model_name)
         pv = st.session_state["Predicted_Price"]
-        st.text("Investment Consideration Range : £ " + "{:,.2f}".format(pv - rmse) + " - £ " + "{:,.2f}".format(pv))
+        st.text("Investment Consideration Range : £ " + "{:,.2f}".format(pv - rmse/2) + " - £ " + "{:,.2f}".format(pv+rmse/2))
         st.markdown("<span style='color: orange;'>Warning! Reported house price might be suspectible to inflation or human sentimental over-hyped value.</span>", unsafe_allow_html=True)
         st.text("")
         st.text("__________________________________________________________________________________________________________________________")
@@ -397,7 +400,7 @@ try:
         model_name = st.session_state["model_name"]
         rmse = get_rmse(model_name)
         pv = st.session_state["Predicted_Price"]
-        st.text("Investment Consideration Range : £ " + "{:,.2f}".format(pv - rmse) + " - £ " + "{:,.2f}".format(pv))
+        st.text("Investment Consideration Range : £ " + "{:,.2f}".format(pv - rmse/2) + " - £ " + "{:,.2f}".format(pv + rmse/2))
     else:
         st.write(f"<span style='font-size: 24px;'>Your predicted value would appear here.</span>", unsafe_allow_html=True)
     
