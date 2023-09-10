@@ -10,7 +10,7 @@ st.image(new_image)
 
 st.write("Next, you have two predictive options to select from using radio buttons [2]: 'Random Forest' and 'Gradient Boost. After making your choice, click the 'Explore' button [3] to proceed.")
 
-st.write("On the next page, you'll find the 'Area Characteristics' which indicate the domains of deprivation of your selected area. The application displays deprivation domains as sliders that you can adjust. These sliders show the actual domain levels of deprivation for the chosen LSOA. Each slider comes with a helpful tooltip to explain the domain it represents. The sliders are also arranged in the order of the selected models feature importance.")
+st.write("On the next page, you'll find the 'Domain Deprivation' which indicate the domains of deprivation of your selected area. The application displays deprivation domains as sliders that you can adjust. These sliders show the actual domain levels of deprivation for the chosen LSOA. Each slider comes with a helpful tooltip to explain the domain it represents. The sliders are also arranged in the order of the selected models feature importance.")
 
 # Add developer image
 from PIL import Image
