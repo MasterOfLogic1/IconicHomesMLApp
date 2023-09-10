@@ -88,7 +88,7 @@ try:
         st.session_state["Predicted_Price"] = 0.0000
         switch_page("homepage")  # Navigate to the "app" page
 
-    st.title('Area Deprivation Indices')
+    st.title('Deprivation Domains')
     st.text('________________________________________________________________________________')
     st.text('Here, you can use the sliders to adjust any deprivation index of your area,')
     st.text('and click the predict button to estimate your house price.')
@@ -118,7 +118,7 @@ try:
     #st.write(st.session_state["data"].head())
     for feature in selected_features:
         default_value = st.session_state["data"].loc[0, feature]
-        slider_values[feature] = st.slider(f'{feature} Index', -100.0000, 100.0000, default_value, step=0.1,help=feature_dict[feature])
+        slider_values[feature] = st.slider(f'{feature} Domain', -100.0000, 100.0000, default_value, step=0.1,help=feature_dict[feature])
         st.markdown(f'<p style="color: DodgerBlue;">Selected  &nbsp; {feature} Index &nbsp;: &nbsp; {slider_values[feature]:.1f}</p>', unsafe_allow_html=True)
         st.text("")
         st.text("")
